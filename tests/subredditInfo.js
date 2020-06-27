@@ -8,7 +8,6 @@ module.exports = {
 
 		browser
 			.url('https://en.reddit.com/by_id/t3_633w4z')
-			.refresh() // get rid of update notification
 			.waitForElementVisible('.thing.link .subreddit')
 			.moveToElement('.thing.link .subreddit', 0, 0)
 			.pause(1000)
@@ -17,7 +16,7 @@ module.exports = {
 			.assert.visible('.RESHover a[href$="/r/RESIntegrationTests"]')
 			.assert.containsText('.RESHover', 'Subreddit created:')
 			.click('.RESHover .RESCloseButton')
-			.waitForElementNotVisible('.RESHover')
+			.waitForElementNotPresent('.RESHover')
 			.end();
 	},
 };

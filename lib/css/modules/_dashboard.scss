@@ -1,8 +1,3 @@
-// this first line hides the "you need RES 4.0+ to view the dashboard" link
-.id-t3_qi5iy {
-	display: none;
-}
-
 .RESDashboardComponent a.widgetPath,
 .addNewWidget,
 .editWidget {
@@ -184,26 +179,10 @@
 	display: inline-block;
 }
 
-#addUser {
-	width: 200px;
-	height: 24px;
-}
-
-#addRedditFormContainer ul.token-input-list-facebook,
-#editRedditFormContainer ul.token-input-list-facebook {
-	float: left;
-}
-
-#addReddit {
-	width: 115px;
-	background-color: #fff;
-	border: 1px solid #96bfe8;
-	margin-left: 6px;
-	margin-right: 6px;
-	padding: 1px 2px;
-}
-
+#addUser,
+#addReddit,
 #addRedditDisplayName,
+#editReddit,
 #editRedditDisplayName {
 	width: 140px;
 	height: 24px;
@@ -212,10 +191,6 @@
 	margin-left: 6px;
 	margin-right: 6px;
 	padding: 1px 2px;
-}
-
-#editReddit {
-	width: 5px;
 }
 
 .addButton,
@@ -315,76 +290,5 @@ ul.widgetStateButtons {
 		.res-icon {
 			margin: 3px;
 		}
-	}
-}
-
-#userTaggerContents .show {
-	display: inline-block;
-}
-
-#tagPageControls {
-	display: inline-block;
-	margin: 0 0 0 10px;
-}
-
-// some styles to override /r/dashboard stylesheet.
-#userTaggerContents,
-#newCommentsContents {
-	margin-right: 305px;
-	font-size: small;
-}
-
-#userTaggerContents table,
-#newCommentsContents table {
-	margin: 0;
-	width: 100%;
-}
-
-#userTaggerTable th,
-#newCommentsTable th,
-#userTaggerTable td,
-#newCommentsTable td {
-	min-width: 0;
-	padding: 5px 8px;
-	border: 1px solid rgb(200, 200, 200);
-}
-
-#newCommentsTable th,
-#userTaggerTable th,
-#newCommentsTable td {
-	white-space: nowrap;
-}
-
-#newCommentsTable td:first-child,
-#newCommentsTable th:first-child {
-	width: auto;
-	white-space: normal;
-}
-
-#newCommentsTable .deleteIcon,
-#userTaggerTable .deleteIcon {
-	color: rgba(0, 0, 0, 0);
-}
-
-#newCommentsTable tr:hover .deleteIcon,
-#userTaggerTable tr:hover .deleteIcon {
-	color: #369;
-}
-
-.res-dashboard {
-	.tabmenu li:not(.res-tabmenu-button),
-	.pagename {
-		display: none;
-	}
-
-	.tabmenu.res-dashboard-tabmenu-ready { display: inline-block; }
-
-	.res-dashboard-tab {
-		font-variant: small-caps;
-		font-size: 1.2em;
-		vertical-align: bottom;
-
-		// We want the tabs to act as a radio, i.e. don't allow deselect the currently selected
-		&.selected a:first-child { pointer-events: none; }
 	}
 }

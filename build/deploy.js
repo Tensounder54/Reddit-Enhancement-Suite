@@ -2,12 +2,10 @@
 
 /* eslint-disable import/no-commonjs, import/no-nodejs-modules */
 
-const fs = require('fs');
-const path = require('path');
+const fs = require('fs'); // eslint-disable-line import/no-extraneous-dependencies
+const path = require('path'); // eslint-disable-line import/no-extraneous-dependencies
 const chromeDeploy = require('chrome-extension-deploy');
-const edgeDeploy = require('edge-extension-deploy');
 const firefoxDeploy = require('firefox-extension-deploy');
-const operaDeploy = require('opera-extension-deploy');
 const { version } = require('../package.json');
 const isBetaVersion = require('./isBetaVersion');
 
@@ -15,16 +13,12 @@ if (isBetaVersion(version)) {
 	console.log(`Deploying ${version} beta release...`);
 
 	deployChromeBeta();
-	deployEdgeBeta();
 } else {
 	console.log(`Deploying ${version} stable release...`);
 
 	deployChromeBeta();
 	deployChromeStable();
-	deployEdgeBeta();
-	deployEdgeStable();
 	deployFirefoxStable();
-	deployOperaStable();
 }
 
 function deployChromeBeta() {
@@ -62,41 +56,6 @@ function deployChromeStable() {
 	});
 }
 
-function deployEdgeBeta() {
-	console.log('Deploying Edge beta...');
-
-	edgeDeploy({
-		tenantId: process.env.EDGE_TENANT_ID,
-		clientId: process.env.EDGE_CLIENT_ID,
-		clientSecret: process.env.EDGE_CLIENT_SECRET,
-		appId: '9NBLGGH4NC12',
-		flightId: '9be3ca4c-a87f-49d2-9191-3aa40c2c9d19',
-		appx: fs.createReadStream(path.join(__dirname, '../dist/edgeextension/package/edgeExtension.appx')),
-	}).then(() => {
-		console.log('Edge beta deployment complete!');
-	}, err => {
-		console.log('Edge beta failed:', err);
-		process.exitCode = 1;
-	});
-}
-
-function deployEdgeStable() {
-	console.log('Deploying Edge stable...');
-
-	edgeDeploy({
-		tenantId: process.env.EDGE_TENANT_ID,
-		clientId: process.env.EDGE_CLIENT_ID,
-		clientSecret: process.env.EDGE_CLIENT_SECRET,
-		appId: '9NBLGGH4NC12',
-		appx: fs.createReadStream(path.join(__dirname, '../dist/edgeextension/package/edgeExtension.appx')),
-	}).then(() => {
-		console.log('Edge stable deployment complete!');
-	}, err => {
-		console.log('Edge stable failed:', err);
-		process.exitCode = 1;
-	});
-}
-
 function deployFirefoxStable() {
 	console.log('Deploying Firefox stable...');
 
@@ -110,22 +69,6 @@ function deployFirefoxStable() {
 		console.log('Firefox stable deployment complete!');
 	}, err => {
 		console.error('Firefox stable failed:', err);
-		process.exitCode = 1;
-	});
-}
-
-function deployOperaStable() {
-	console.log('Deploying Opera stable...');
-
-	operaDeploy({
-		username: process.env.OPERA_USER,
-		password: process.env.OPERA_PASSWORD,
-		id: '53435',
-		zip: fs.readFileSync(path.join(__dirname, '../dist/zip/chrome.zip')),
-	}).then(() => {
-		console.log('Opera stable deployment complete!');
-	}, err => {
-		console.error('Opera stable failed:', err);
 		process.exitCode = 1;
 	});
 }

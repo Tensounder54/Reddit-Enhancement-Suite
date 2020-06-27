@@ -3,32 +3,31 @@ module.exports = {
 		let oldWindowHandles;
 
 		browser
-			.url('https://en.reddit.com/r/RESIntegrationTests/comments/60edn3/image_expando/')
+			.url('https://en.reddit.com/r/RESIntegrationTests/comments/drz1sx/image_expando/')
 			.waitForElementVisible('.expando-button')
 			.assert.cssClassPresent('.expando-button', 'image')
-			.assert.cssClassPresent('.expando-button', 'collapsedExpando')
+			.assert.cssClassPresent('.expando-button', 'collapsed')
 			.assert.attributeEquals('.expando-button', 'data-host', 'default')
 
 			.click('.expando-button')
 			.waitForElementVisible('.res-expando-box')
 			.assert.attributeEquals('.res-expando-box', 'data-host', 'default')
-			.assert.attributeEquals('.res-expando-box img', 'src', 'http://fc04.deviantart.net/fs51/i/2009/278/e/6/THEN_by_SamSaxton.jpg')
-			.assert.attributeEquals('.res-expando-box a', 'href', 'http://fc04.deviantart.net/fs51/i/2009/278/e/6/THEN_by_SamSaxton.jpg')
+			.assert.attributeEquals('.res-expando-box img', 'src', 'https://upload.wikimedia.org/wikipedia/commons/b/b1/Joe_Exotic_%28Santa_Rose_County_Jail%29.png')
+			.assert.attributeEquals('.res-expando-box a', 'href', 'https://upload.wikimedia.org/wikipedia/commons/b/b1/Joe_Exotic_%28Santa_Rose_County_Jail%29.png')
 
 			.pause(1000)
-			.window_handles(result => {
+			.windowHandles(result => {
 				// store old window handles, to keep track of, e.g. beta release notes
 				oldWindowHandles = result.value;
 			})
 			.click('.res-expando-box img')
 			// old tab didn't navigate
-			.assert.urlEquals('https://en.reddit.com/r/RESIntegrationTests/comments/60edn3/image_expando/')
+			.assert.urlContains('https://en.reddit.com/r/RESIntegrationTests/comments/drz1sx/image_expando/')
 			// image opened in new tab, focused
-			.window_handles(result => {
-				browser.switchWindow(result.value.filter(win => !oldWindowHandles.includes(win))[0]);
+			.windowHandles(result => {
+				browser.switchWindow(result.value.find(win => !oldWindowHandles.includes(win)));
 			})
-			// deviantart may redirect to a different CDN server
-			.assert.urlContains('/i/2009/278/e/6/then_by_samsaxton.jpg')
+			.assert.urlContains('https://upload.wikimedia.org/wikipedia/commons/b/b1/Joe_Exotic_%28Santa_Rose_County_Jail%29.png')
 
 			.end();
 	},
@@ -37,8 +36,8 @@ module.exports = {
 			.url('https://en.reddit.com/r/RESIntegrationTests/comments/60ef59/video_expando/')
 			.waitForElementVisible('.expando-button')
 			.assert.cssClassPresent('.expando-button', 'video')
-			.assert.cssClassNotPresent('.expando-button', 'video-muted')
-			.assert.cssClassPresent('.expando-button', 'collapsedExpando')
+			.assert.not.cssClassPresent('.expando-button', 'video-muted')
+			.assert.cssClassPresent('.expando-button', 'collapsed')
 			.assert.attributeEquals('.expando-button', 'data-host', 'defaultVideo')
 			.click('.expando-button')
 			.waitForElementVisible('.res-expando-box')
@@ -51,7 +50,7 @@ module.exports = {
 			.url('https://en.reddit.com/r/RESIntegrationTests/comments/60efz8/audio_expando/')
 			.waitForElementVisible('.expando-button')
 			.assert.cssClassPresent('.expando-button', 'video')
-			.assert.cssClassPresent('.expando-button', 'collapsedExpando')
+			.assert.cssClassPresent('.expando-button', 'collapsed')
 			.assert.attributeEquals('.expando-button', 'data-host', 'defaultAudio')
 			.click('.expando-button')
 			.waitForElementVisible('.res-expando-box')
@@ -64,7 +63,7 @@ module.exports = {
 			.url('https://en.reddit.com/r/RESIntegrationTests/comments/60egvo/iframe_expando/')
 			.waitForElementVisible('.expando-button')
 			.assert.cssClassPresent('.expando-button', 'video')
-			.assert.cssClassPresent('.expando-button', 'collapsedExpando')
+			.assert.cssClassPresent('.expando-button', 'collapsed')
 			.assert.attributeEquals('.expando-button', 'data-host', 'youtube')
 			.click('.expando-button')
 			.waitForElementVisible('.res-expando-box')
@@ -75,14 +74,14 @@ module.exports = {
 	},
 	'generic expando': browser => {
 		browser
-			.url('https://en.reddit.com/r/RESIntegrationTests/comments/60eh9o/generic_expando/')
+			.url('https://en.reddit.com/r/RESIntegrationTests/comments/a2pudd/generic_expando/')
 			.waitForElementVisible('.expando-button')
 			.assert.cssClassPresent('.expando-button', 'selftext')
-			.assert.cssClassPresent('.expando-button', 'collapsedExpando')
-			.assert.attributeEquals('.expando-button', 'data-host', 'miiverse')
+			.assert.cssClassPresent('.expando-button', 'collapsed')
+			.assert.attributeEquals('.expando-button', 'data-host', 'codepen')
 			.click('.expando-button')
 			.waitForElementVisible('.res-expando-box')
-			.assert.attributeEquals('.res-expando-box', 'data-host', 'miiverse')
+			.assert.attributeEquals('.res-expando-box', 'data-host', 'codepen')
 			.end();
 	},
 	'gallery expando': browser => {
@@ -91,7 +90,7 @@ module.exports = {
 			.waitForElementVisible('.expando-button')
 			.assert.cssClassPresent('.expando-button', 'image')
 			.assert.cssClassPresent('.expando-button', 'gallery')
-			.assert.cssClassPresent('.expando-button', 'collapsedExpando')
+			.assert.cssClassPresent('.expando-button', 'collapsed')
 			.assert.attributeEquals('.expando-button', 'data-host', 'imgur')
 			.assert.attributeEquals('.expando-button', 'title', '2 items in gallery')
 			.click('.expando-button')
@@ -100,7 +99,7 @@ module.exports = {
 			.assert.containsText('.res-expando-box', '1 of 2')
 			.assert.attributeEquals('.res-expando-box .res-gallery-pieces > div:not([hidden]) img', 'src', 'https://i.imgur.com/rXZWEIB.jpg')
 			.assert.attributeEquals('.res-expando-box .res-gallery-pieces > div:not([hidden]) a', 'href', 'https://imgur.com/rXZWEIB,eutVEAv#rXZWEIB')
-			.click('.res-expando-box .res-gallery-next')
+			.click('.res-expando-box .res-step-next')
 			.assert.containsText('.res-expando-box', '2 of 2')
 			.assert.attributeEquals('.res-expando-box .res-gallery-pieces > div:not([hidden]) img', 'src', 'https://i.imgur.com/eutVEAv.jpg')
 			.assert.attributeEquals('.res-expando-box .res-gallery-pieces > div:not([hidden]) a', 'href', 'https://imgur.com/rXZWEIB,eutVEAv#eutVEAv')
@@ -109,7 +108,7 @@ module.exports = {
 	'crosspost expando': browser => {
 		browser
 			.url('https://en.reddit.com/by_id/t3_7wn64k/')
-			.waitForElementVisible('.expando-button')
+			.waitForElementVisible('.expando-button[data-host]') // Look for `data-host` attribute in case RES doen't replace the native expando immediately
 			.click('.expando-button')
 			.waitForElementVisible('.res-expando-box')
 			.assert.cssClassPresent('.crosspost-preview', 'res-crosspost-preview')
@@ -121,17 +120,15 @@ module.exports = {
 	'show images button': browser => {
 		browser
 			.url('https://en.reddit.com/by_id/t3_6346fk,t3_6346h7')
-			.refresh() // get rid of update notification
 			.waitForElementVisible('.res-show-images')
 			.assert.containsText('.res-show-images', 'show images')
-			.assert.attributeContains('.res-show-images a', 'aftercontent', '(2)')
-			.assert.cssClassNotPresent('.res-show-images', 'selected')
+			.assert.not.cssClassPresent('.res-show-images', 'selected')
 			.click('.res-show-images')
 			.assert.cssClassPresent('.res-show-images', 'selected')
 			.waitForElementVisible('#thing_t3_6346fk .res-expando-box img')
 			.waitForElementVisible('#thing_t3_6346h7 .res-expando-box img')
 			.click('.res-show-images')
-			.assert.cssClassNotPresent('.res-show-images', 'selected')
+			.assert.not.cssClassPresent('.res-show-images', 'selected')
 			.waitForElementNotVisible('#thing_t3_6346fk .res-expando-box img')
 			.waitForElementNotVisible('#thing_t3_6346h7 .res-expando-box img')
 			.end();

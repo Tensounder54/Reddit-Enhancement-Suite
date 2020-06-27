@@ -8,6 +8,7 @@ $title-link-color: hsl(0, 0%, 87%);
 $title-link-visited-color: hsl(0, 0%, 65%);
 
 .res-nightmode {
+	html#{&},
 	body,
 	body .content,
 	.modal-body,
@@ -24,9 +25,30 @@ $title-link-visited-color: hsl(0, 0%, 65%);
 	.modactionlisting table *,
 	.side .recommend-box .rec-item,
 	.crosspost-preview,
-	.crosspost-thing-preview {
+	.crosspost-thing-preview,
+	.admin_takedown,
+	.happening-now {
 		background-color: $background-color;
 		border-color: $border-color;
+	}
+
+	.embedded-page .content > .sitetable,
+	.embedded-page.helpcenter-page .content,
+	.embedded-page.compose-page .content,
+	.embedded-page .content > .sitetable > div:nth-of-type(4n+1),
+	.embedded-page.helpcenter-page .content > div:nth-of-type(4n+1),
+	.embedded-page.compose-page .content > div:nth-of-type(4n+1) {
+		background-color: $background-color;
+		color: $color;
+	}
+
+	.link,
+	.helpcenter-form .section-content {
+		background-color: $background-color;
+	}
+
+	.helpcenter-form .helpcenter-bottom-panel .helpcenter-content-policy p {
+		color: $color;
 	}
 
 	.popup,
@@ -41,7 +63,7 @@ $title-link-visited-color: hsl(0, 0%, 65%);
 		color: #bbb;
 	}
 
-	.RESCloseButton,
+	.RESCloseButton::after,
 	.message.new > .entry,
 	.read-next,
 	.drop-choices {
@@ -65,7 +87,7 @@ $title-link-visited-color: hsl(0, 0%, 65%);
 		border-color: rgb(120, 120, 120);
 	}
 
-	.RESCloseButton:hover {
+	.RESCloseButton:hover::after {
 		background-color: $highlight-background-color;
 	}
 
@@ -96,14 +118,6 @@ $title-link-visited-color: hsl(0, 0%, 65%);
 
 	.RESUserTagImage::after {
 		color: rgb(117, 142, 168);
-	}
-
-	#RESMenu li {
-		background-color: #eee;
-
-		&.active {
-			background-color: #7f7f7f;
-		}
 	}
 
 	#DonateRES {
@@ -421,7 +435,6 @@ $title-link-visited-color: hsl(0, 0%, 65%);
 	}
 
 	button,
-	submit,
 	input[type='button'],
 	input[type='submit'],
 	input[type='reset'] {
@@ -435,8 +448,11 @@ $title-link-visited-color: hsl(0, 0%, 65%);
 		color: #8AD;
 	}
 
-	.linefield .linefield-content {
+	.linefield,
+	.linefield .linefield-content,
+	.linefield.mobile {
 		border-color: hsl(0, 0%, 10%);
+		background-color: hsl(0, 0%, 30%);
 	}
 
 	#RESShortcutsEditContainer,
@@ -799,7 +815,6 @@ $title-link-visited-color: hsl(0, 0%, 65%);
 	.trophy-info *,
 	.golddvertisement,
 	.flair-jump .title,
-	.NERdupe p.title::after,
 	.savedComment,
 	.md,
 	.md h2,
@@ -853,6 +868,11 @@ $title-link-visited-color: hsl(0, 0%, 65%);
 	.hover-bubble.multi-selector strong,
 	.subreddit-rules-page .md-container .md .subreddit-rule-description {
 		color: inherit;
+	}
+
+	.comment.spam > .child,
+	.message.spam > .child {
+		background-color: transparent;
 	}
 
 	.nextprev a:hover,
@@ -1147,8 +1167,6 @@ $title-link-visited-color: hsl(0, 0%, 65%);
 	.editWidget,
 	#authorInfoToolTip .option,
 	.updateTime,
-	.REStoggle,
-	.RESshortcut,
 	#RESSubmitOptions ~ div a,
 	#shortlink-text,
 	.guiders_button,
@@ -1181,6 +1199,12 @@ $title-link-visited-color: hsl(0, 0%, 65%);
 		border-color: hsl(0, 0%, 30%);
 	}
 
+	.flairrichtext[style*='color'] {
+		color: rgb(200, 200, 200) !important;
+		background-color: rgb(64, 64, 64) !important;
+		border-color: rgb(77, 77, 77);
+	}
+
 	#NERContent {
 		background-color: rgb(160, 160, 160);
 	}
@@ -1206,7 +1230,7 @@ $title-link-visited-color: hsl(0, 0%, 65%);
 
 	// Affects RES console header img.
 	// Subreddit stylesheets can't override filter, so we only use when it won't affect them.
-	#RESLogo {
+	.res-logo {
 		filter: invert(79%) grayscale(100%);
 	}
 
@@ -1310,7 +1334,7 @@ $title-link-visited-color: hsl(0, 0%, 65%);
 		color: rgb(130, 130, 130);
 	}
 
-	.newComments {
+	.res-hasNewComments .newComments {
 		color: rgb(210, 90, 50);
 	}
 
@@ -1372,17 +1396,14 @@ $title-link-visited-color: hsl(0, 0%, 65%);
 		}
 	}
 
-	&.res-filteReddit-filterline-pad-until-ready .listing-page .content[role=main] > .spacer:nth-of-type(2)::before,
 	.res-filterline {
 		background-color: rgba(38, 38, 38, .9);
-	}
 
-	.res-filterline {
 		&-filter {
 			border-bottom-color: #383838;
 
-			&-active,
-			&-active:hover {
+			&-hiding,
+			&-hiding:hover {
 				border-bottom-color: #e4e4e4;
 				color: #e4e4e4;
 			}
@@ -1399,10 +1420,6 @@ $title-link-visited-color: hsl(0, 0%, 65%);
 	}
 
 	#REScommentNavBox {
-		#commentNavBy {
-			background-color: #707070;
-		}
-
 		#commentNavUp,
 		#commentNavDown {
 			color: #434343;
@@ -1554,7 +1571,7 @@ $title-link-visited-color: hsl(0, 0%, 65%);
 		background-color: $background-color !important;
 
 		.c-close {
-			background-color: inherit;
+			background-color: $header-background-color;
 		}
 	}
 

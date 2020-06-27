@@ -26,12 +26,27 @@ module.options = {
 	},
 };
 
+module.permissions = {
+	// extra permissions this module requires; these permissions must be listed in the
+	//   optional_permissions section of the manifest file
+	requiredPermissions: ['webRequest'],
+	// if any of the optional permissions we're requesting will result in a warning prompt,
+	//   (see https://developer.chrome.com/apps/permission_warnings#permissions_with_warnings)
+	//   being shown to the user, use this field to explain to the user why we need the permission(s)
+	message: 'This module needs some extra permissions to function',
+};
+
 // See PageType (utils/location.js) for other page types
 module.include = ['linklist']; // Optional: defaults to including all pages
 module.exclude = []; // Optional: defaults to excluding no pages
 
-module.beforeLoad = () => { // Optional: runs after <head> is ready and the module's options are loaded
+module.beforeLoad = () => { // Optional: runs after the module's options are loaded
 	// Preload stuff if necessary
+};
+
+module.contentStart = () => { // Optional: runs when the first Thing (and its children) is ready; at this stage is also the header and sidebar ready
+	// Do stuff now!
+	// This is where your code goes...
 };
 
 module.go = () => { // Optional: runs after <body> is ready and `beforeLoad` (in all modules) is complete

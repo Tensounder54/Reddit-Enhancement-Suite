@@ -12,43 +12,43 @@ Thinking about contributing to RES? Awesome! We just ask that you follow a few s
 
 1. To check code style and autofix some formatting errors, see [Lint and test commands](#lint-and-test-commands).
 
-1. [Come chat with us on IRC](https://webchat.snoonet.org/#enhancement) if you would like to implement a new feature. It is the quickest way to get a response from the development team.
+1. [Come chat with us on Discord](https://discord.gg/UzkFNNa) if you would like to implement a new feature. It is the quickest way to get a response from the development team.
 
 ## Building development versions of the extension
 
 #### First time installation
 
 1. Install [git](https://git-scm.com/).
-1. Install [node.js](https://nodejs.org) (version >= 6).
-1. Install [Python 2](https://www.python.org/downloads/) (*not* version 3). On Windows, please install the "Add python.exe to path" feature on the customize screen.
+1. Install [node.js](https://nodejs.org) (version >= 8).
+1. Install [yarn](https://yarnpkg.com/lang/en/docs/install/)
 1. [Clone this repository](https://help.github.com/articles/cloning-a-repository/).
-1. Run `npm install` in that folder.
+1. Run `yarn` in that folder.
 
-Once done, you can build the extension by running `npm start` (see [Build commands](#build-commands)).
+Once done, you can build the extension by running `yarn start` (see [Build commands](#build-commands)).
 
 To load the extension into your browser, see [Loading RES into your browser](#loading-res-into-your-browser).
 
 #### Build commands
 
-**`npm start [<browsers>]`** will clean `dist/`, then build RES (dev mode), and start a watch task that will rebuild RES when you make changes. Only changed files will be rebuilt.
+**`yarn start [<browsers>]`** will clean `dist/`, then build RES (dev mode), and start a watch task that will rebuild RES when you make changes. Only changed files will be rebuilt.
 
-**`npm run once [<browsers>]`** will clean `dist/`, then build RES (dev mode) a single time.
+**`yarn build [<browsers>]`** will clean `dist/`, then build RES (dev mode) a single time.
 
-**`npm run build [<browsers>]`** will clean `dist/`, then build RES (release mode). Each build output will be compressed to a .zip file in `dist/zip/`.
+**`yarn build [<browsers>]`** will clean `dist/`, then build RES (release mode). Each build output will be compressed to a .zip file in `dist/zip/`.
 
-`<browsers>` is a comma-separated list of browsers to target, e.g. `chrome,firefox,edge`. `all` will build all targets. By default, `chrome` will be targeted.
+`<browsers>` is a comma-separated list of browsers to target, e.g. `chrome,firefox`. `all` will build all targets. By default, `chrome` will be targeted.
 
 #### Lint and test commands
 
-**`npm run lint`** will verify the code style (and point out any errors) of all `.js` files in `lib/` (except `lib/vendor/`) using [ESLint](http://eslint.org/), as well as all `.scss` files with [sass-lint](https://github.com/sasstools/sass-lint).
+**`yarn lint`** will verify the code style (and point out any errors) of all `.js` files in `lib/` (except `lib/vendor/`) using [ESLint](http://eslint.org/), as well as all `.scss` files with [sass-lint](https://github.com/sasstools/sass-lint).
 
-**`npm run lint-fix`** will autofix any [fixable](http://eslint.org/docs/user-guide/command-line-interface#fix) lint issues.
+**`yarn lint-fix`** will autofix any [fixable](http://eslint.org/docs/user-guide/command-line-interface#fix) lint issues.
 
-**`npm run flow`** will run [Flow](https://flowtype.org/) type checking, and start the Flow server so future runs will complete faster. Use `npm run flow -- stop` to stop the server, or `npm run flow -- check` to run Flow once without starting the server.
+**`yarn flow`** will run [Flow](https://flowtype.org/) type checking, and start the Flow server so future runs will complete faster. Use `yarn flow -- stop` to stop the server, or `yarn flow -- check` to run Flow once without starting the server.
 
-**`npm test`** will run unit tests (in `__tests__` directories) using [Ava](https://github.com/avajs/ava). (requires Node 7.6+)
+**`yarn test`** will run unit tests (in `__tests__` directories) using [Ava](https://github.com/avajs/ava).
 
-**`npm run integration -- <browsers> [-f <testFileGlob>]`** will run integration tests (in `tests/`) using [Nightwatch.js](http://nightwatchjs.org/).
+**`yarn integration -- <browsers> [-f <testFileGlob>]`** will run integration tests (in `tests/`) using [Nightwatch.js](http://nightwatchjs.org/).
 Currently just `chrome` and `firefox` can be targeted.
 
 To run integration tests locally, you need to run an instance of [Selenium Standalone Server](http://www.seleniumhq.org/download/) and have either [ChromeDriver](https://sites.google.com/a/chromium.org/chromedriver/home) or [GeckoDriver](https://github.com/mozilla/geckodriver) on your `PATH`.
@@ -62,12 +62,6 @@ The default host and port (`localhost` and `4444`) should work for most local in
 1. Go to `Menu->More tools->Extensions` and tick the `Developer Mode` checkbox.
 1. Click `Load unpacked extension` and select the `/dist/chrome` folder (not the `/chrome` folder).
 1. Any time you make changes, you must go back to the `Menu->More tools->Extensions` page and `Reload` the extension.
-
-##### Microsoft Edge
-
-1. Go to `about:flags` and tick the `Enable extension developer features` checkbox.
-1. Click `Load extension` on the extensions menu and select the `/dist/edgeextension/manifest/Extension` folder (not the `/edge` folder).
-1. Any time you make changes, you must go back to the `Menu->Extensions` page, go to the extension's settings and `Reload` the extension.
 
 ##### Firefox
 
@@ -85,7 +79,6 @@ The default host and port (`localhost` and `4444`) should work for most local in
   - `changelog/`: release changelogs
   - `chrome/`: Chrome-specific RES files
   - `dist/`: build output
-  - `edge/`: Microsoft Edge-specific RES files
   - `examples/`: example code for new hosts/modules
   - `firefox/`: Firefox-specific RES files
   - `images/`: images for RES logo and CSS icons

@@ -13,6 +13,8 @@ module.exports = {
 		enabled: true,
 		workers: 5,
 	},
+	detailed_output: false,
+	live_output: true,
 	test_settings: {
 		default: {
 			selenium_host: process.env.SELENIUM_HOST,

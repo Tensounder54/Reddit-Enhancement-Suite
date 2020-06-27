@@ -8,7 +8,7 @@
 	"applications": {
 		"gecko": {
 			"id": "jid1-xUfzOsOFlzSOXg@jetpack",
-			"strict_min_version": "57.0"
+			"strict_min_version": "77.0"
 		}
 	},
 	"icons": {
@@ -22,7 +22,7 @@
 		}
 	},
 	"options_ui": {
-		"page": "{{../lib/options.html}}",
+		"page": "{{../lib/options/options.html}}",
 		"open_in_tab": true
 	},
 	"background": {
@@ -34,6 +34,7 @@
 		"matches": [
 			"https://*.reddit.com/*"
 		],
+		"all_frames": true,
 		"exclude_matches": [
 			"https://mod.reddit.com/*",
 			"https://ads.reddit.com/*",
@@ -62,6 +63,7 @@
 		],
 		"run_at": "document_start"
 	}],
+	"content_security_policy": "default-src 'self'; img-src 'self' data:; connect-src https:; frame-ancestors https://*.reddit.com",
 	"permissions": [
 		"https://*.reddit.com/*",
 		"cookies",
@@ -69,16 +71,25 @@
 		"tabs",
 		"history",
 		"storage",
-		"unlimitedStorage",
+		"unlimitedStorage"
+	],
+	"optional_permissions": [
 		"downloads",
 
-		"https://api.twitter.com/*",
+		"https://publish.twitter.com/oembed",
 		"https://backend.deviantart.com/oembed",
 		"https://api.gyazo.com/api/oembed",
-		"https://codepen.io/api/oembed",
 		"https://api.tumblr.com/v2/blog/*/posts",
 		"https://xkcd.com/*/info.0.json",
 		"https://api.steampowered.com/ISteamRemoteStorage/GetPublishedFileDetails/*",
-		"https://content.googleapis.com/drive/v3/*"
+		"https://www.googleapis.com/drive/v3/*",
+		"https://v.redd.it/*/DASHPlaylist.mpd",
+		"https://www.flickr.com/services/oembed"
+	],
+	"web_accessible_resources": [
+		"{{../lib/fonts/batch-icons-webfont.woff}}",
+		"{{../lib/environment/background/permissions/prompt.html}}",
+		"{{../lib/environment/background/permissions/prompt.entry.js}}",
+		"{{../lib/options/options.html}}"
 	]
 }

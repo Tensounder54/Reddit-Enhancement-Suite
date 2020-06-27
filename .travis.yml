@@ -1,6 +1,6 @@
 sudo: false
 language: node_js
-node_js: 8
+node_js: 10
 branches:
   only:
     - master
@@ -14,19 +14,9 @@ env:
     # CHROME_REFRESH_TOKEN
     - secure: LfNqGTqtHtRJKrD2TKHKIcfhtEjwuctoGJlt8dAvqo9LuChFh8t7feBObJ/b79v/vZeRsKVn8dExZRz/b4V8NyVc9xT4DgSCuaY3vKfbJ99TRa1vKK+wC5rElhJpBWqosP+rF8cocorXerfWQIst9f9LeGggX0to/hhCJ5RqSkw=
     # FIREFOX_ISSUER
-    - secure: RVoTaF6KaKCTcxuDD0VKTUnQatFgvpw8nzSpzJs/A9RJ0OspmSRCKDFUOvMrwtIs8PRBhYsc84GP/0uhHLwxqLarYDetysTV4tOcTK/VbBCkYdiaf++MBKFChe6l04U1gaQH813yCHkDDiNVqOzO8AYymVjJmTFFHOdUR1eR7CA=
+    - secure: CfCvu8+QKGS4IkL5Aie2siLfoJM34lUhX0DymwaueVD82ofVKiJJTlzmSEpgYwo2M6mEKfiLr2sygZIFSrF2EkTpt1l1fPSDbs+jt7XyGv9hLqIZ/QYvfu6VIcoPe9sUHe0qIxFEdjJD4/Hca59f+YBMXBxDdqum4JaXR2m4lRM=
     # FIREFOX_SECRET
-    - secure: dY750kjkoKhqQL7a4E2JnncvMwC4uRkHSP8UzHX92tXbRgKyTFgfekzVExq3gMyNESO/WQh7jUZE5zCM5QnL1q+Xv8hyueHV+piP9imCbw/126Zm0pCsrHVNsBAauqf2CQCE0DyIMADvnPgyANLGe2scz5KuNVZBF/yOJTFK9Kc=
-    # EDGE_TENANT_ID
-    - secure: TiWe3fdefeqFTbOxBrBub9KD5uDfvU6DyogTFdhTeD22GwmJY8MkfQUIH1LWIrMmdSRF4qd4hVWd9RlaHXnYDKESpUBdudkwnuv05ikTqv/L+KHIqRYHt1yF17fETjTFvNo9929mOYOL0xjbvHK6j8anaGiaWtzDyaCBZhfb4qQ=
-    # EDGE_CLIENT_ID
-    - secure: SwMtDPNzHqk9wBz3z28FCvsx/g4cBZsqDQRRZFHKoAmrjPWCIVA3ufCmkGYP8j5Bl+e9kKd35udn74tU/AFOXCRPL2XmOuJHAVn1gwXTDwk3IhgiNi26ApjKNYV2zKAeSP9h6FZ9220tm8CpMqwQZ8wyekLNbiJ41kQUaggrDok=
-    # EDGE_CLIENT_SECRET
-    - secure: qMLVv5D7k9eciEn8Dr4pXokd+fDIXAXHurMrsrtTm1AavCi8/bvnGgw9sqkPr25fdX6Vz4uz47KUl0sl0Mxo9Y8/r3mgKUuy8DAPuxHdkzmLw2gbb+Bqq6yMVcLeml2gDIWwkIzikolk+UsR3Zeb3TgblKyc6OA60axT7npqU9g=
-    # OPERA_USER
-    - secure: qDNnqBq0tTuvFd7b39JJB6jHIe6FA8iKFmkuZaiCJXezZaZDOnGTq0ZdFhR+4Zbxvpin2iaJQMaFVsh0J6RE1tZM3D6cyWpwNQDoVrxGFNzpUzddvbVzqsYtTprmttHr1Kq4sA9U66wQgrePWvnPHDViiVXcV0E8NcAutatZVUM=
-    # OPERA_PASSWORD
-    - secure: AZeNzWDrEQI7l6vA2675rk+KuTjq7qQ5fN4ndZoXRTwCSLjell2tONuxQHbdJOePwLBE+ow+hfOGUbbzZCwetWfGML1HbngOYVapekPjCTuviErHRwXH0ST2iJ75E5ki3+GE2K3DmlS8DRNr8BehfkjSZkxsev04vameQX+d7c0=
+    - secure: QmAjceJoWyJYCxXAozXcZBd7+vCnvqurW/4c6W9uJNwbq0GmRFy/Y8zFutNIMhiJ89NflPERkd2CvBFqqCYcvTyAl1AE3+9eruvsSxsamycJQc/J5zNwDNYSidq0/nQNQ/RwZMcbiSKZmJOGT0q4nhO4blekczza1fgspw78g2A=
     - BOT_USER=Reddit-Enhancement-Suite-Bot
     # BOT_PASSWORD
     - secure: ZBBtGxs7i536e3jEUsVTXu7/PfcXGWslftul6G3l9e9I9mqUcxsZY0ET/YbJib9pjmw2O9SAT5E+3uAftPpfgHxXcqm+/+Hw7qXqqG2woR18s2jxZmW9m0paa5uqsG0GZv/MYzoWGIBPfFmxEdYAKwHYy9ei4uXRwQZLc/aZXEE=
@@ -52,12 +42,10 @@ matrix:
     - env: RES_JOB=test
       script:
         - yarn run coverage && yarn run report-coverage
-        - yarn run build chrome,firefox
-        - yarn run integration chrome --retries 2 && yarn run integration firefox --retries 2
+        - yarn run integration chrome --retries 2 && yarn run integration-only firefox --retries 2
     - env: RES_JOB=build_deploy
       script:
         - yarn run build all
-        - yarn run manifoldjs-package
       deploy:
         - provider: releases
           api_key:
@@ -66,10 +54,10 @@ matrix:
           file:
             - dist/zip/chrome.zip
             - dist/zip/chrome-beta.zip
-            - dist/edgeextension/package/edgeExtension.appx
             - dist/zip/firefox.zip
             - dist/zip/firefox-beta.zip
           skip_cleanup: true
+          overwrite: true
           on:
             tags: true
         - provider: script
@@ -80,7 +68,8 @@ matrix:
 notifications:
   irc:
     channels:
-      - "irc.snoonet.org#enhancement"
+      # irc.snoonet.org#enhancement (encrypted so forks don't send notifications)
+      - secure: WeniQ6F8g8c5lO/XaTvX66JHiqXoz1Hc77Bh9CJoFUpqZYB9Gpy9DHpV/nCPZhkNlNAWkUoOpa1aCah9VV84I8YeWl9Yo54MwyZc1aAMoiXAKBqbxO5whkGb6ql2elCrdecV7L1GtPSpnrToVvxXUKr8F/5M6UEspLIaT7gJTiw=
     on_success: change
     on_failure: always
     skip_join: true

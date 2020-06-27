@@ -1,6 +1,6 @@
 # All browsers
 
-1. Run [`npm run build`](/CONTRIBUTING.md#build-commands) for the desired browser
+1. Run [`yarn build all`](/CONTRIBUTING.md#build-commands) for the desired browser
 
 ## Chrome
 
@@ -14,15 +14,8 @@ https://developer.mozilla.org/en-US/Add-ons/Distribution
 
 1. Upload `firefox.zip` to https://addons.mozilla.org/en-US/developers/addon/submit/1
 
-## Edge
+## Edge 
 
-https://developer.microsoft.com/en-us/microsoft-edge/platform/documentation/extensions/guides/packaging/using-ManifoldJS-to-package-extensions/
+https://docs.microsoft.com/microsoft-edge/extensions-chromium/publish/publish-extension
 
-1. Run `npm run manifoldjs-package`
-1. Upload `edgeExtension.appx` to https://developer.microsoft.com/en-us/dashboard/apps/overview
-
-## Opera 
-
-https://dev.opera.com/extensions/publishing-guidelines/
-
-1. Upload `chrome.zip` to https://addons.opera.com/developer/
+1. Upload `chrome.zip` to https://partner.microsoft.com/en-us/dashboard/microsoftedge/overview

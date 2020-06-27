@@ -2,11 +2,11 @@
 
 /* eslint-disable import/no-nodejs-modules */
 
-import path from 'path';
+import path from 'path'; // eslint-disable-line import/no-extraneous-dependencies
 
 import InertEntryPlugin from 'inert-entry-webpack-plugin';
-import LodashModuleReplacementPlugin from 'lodash-webpack-plugin';
 import ZipPlugin from 'zip-webpack-plugin';
+import sass from 'sass';
 
 const browserConfig = {
 	chrome: {
@@ -18,12 +18,6 @@ const browserConfig = {
 		target: 'chrome',
 		entry: 'chrome/beta/manifest.json',
 		output: 'chrome-beta',
-	},
-	edge: {
-		target: 'edge',
-		entry: 'edge/appxmanifest.xml',
-		output: 'edgeextension/manifest',
-		noZip: true,
 	},
 	firefox: {
 		target: 'firefox',
@@ -73,16 +67,14 @@ export default (env = {}, argv = {}) => {
 						loader: 'babel-loader',
 						options: {
 							plugins: [
-								'transform-export-extensions',
-								'transform-class-properties',
-								['transform-object-rest-spread', { useBuiltIns: true }],
-								'transform-flow-strip-types',
-								'transform-dead-code-elimination',
+								'@babel/plugin-proposal-export-namespace-from',
+								['@babel/plugin-proposal-class-properties', { loose: true }],
+								'@babel/plugin-transform-flow-strip-types',
+								'minify-dead-code-elimination',
 								['transform-define', {
 									'process.env.BUILD_TARGET': conf.target,
 									'process.env.NODE_ENV': argv.mode,
 								}],
-								'lodash',
 							],
 							comments: !isProduction,
 							babelrc: false,
@@ -97,7 +89,7 @@ export default (env = {}, argv = {}) => {
 						loader: 'babel-loader',
 						options: {
 							plugins: [
-								'transform-dead-code-elimination',
+								'minify-dead-code-elimination',
 								['transform-define', {
 									'process.env.NODE_ENV': argv.mode,
 								}],
@@ -111,16 +103,16 @@ export default (env = {}, argv = {}) => {
 			}, {
 				test: /\.scss$/,
 				use: [
-					{ loader: 'file-loader', options: { name: '[name].css' } },
+					{ loader: 'file-loader', options: { esModule: false, name: '[name].css' } },
 					{ loader: 'extricate-loader', options: { resolve: '\\.js$' } },
 					{ loader: 'css-loader' },
 					{ loader: 'postcss-loader' },
-					{ loader: 'sass-loader' },
+					{ loader: 'sass-loader', options: { implementation: sass } },
 				],
 			}, {
 				test: /\.html$/,
 				use: [
-					{ loader: 'file-loader', options: { name: '[name].[ext]' } },
+					{ loader: 'file-loader', options: { esModule: false, name: '[name].[ext]' } },
 					{ loader: 'extricate-loader' },
 					{ loader: 'html-loader', options: { attrs: ['link:href', 'script:src'] } },
 				],
@@ -128,13 +120,18 @@ export default (env = {}, argv = {}) => {
 				test: /\.(png|gif|svg)$/,
 				exclude: path.join(__dirname, 'lib', 'images'),
 				use: [
-					{ loader: 'file-loader', options: { name: '[name].[ext]' } },
+					{ loader: 'file-loader', options: { esModule: false, name: '[name].[ext]' } },
 				],
 			}, {
 				test: /\.(png|gif|svg)$/,
 				include: path.join(__dirname, 'lib', 'images'),
 				use: [
-					{ loader: 'url-loader' },
+					{ loader: 'url-loader', options: { esModule: false } },
+				],
+			}, {
+				test: /\.woff$/,
+				use: [
+					{ loader: 'file-loader', options: { esModule: false, name: '[name].[ext]' } },
 				],
 			}],
 		},
@@ -142,9 +139,11 @@ export default (env = {}, argv = {}) => {
 			minimize: false,
 			concatenateModules: true,
 		},
+		resolve: {
+			mainFields: ['module', 'main', 'browser'],
+		},
 		plugins: [
 			new InertEntryPlugin(),
-			new LodashModuleReplacementPlugin(),
 			(env.zip && !conf.noZip && new ZipPlugin({
 				path: path.join('..', 'zip'),
 				filename: conf.output,

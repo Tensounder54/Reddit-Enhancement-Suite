@@ -17,8 +17,11 @@ module.exports = {
 			// In this test, that behaviour causes the user hover info to appear after loading more comments,
 			// which breaks everything by covering up the comments we need to click on.
 			// It's too difficult to work around, so just disable user info entirely.
-			.url('https://en.reddit.com/wiki/pages#res:settings/userInfo')
+			.url('https://en.reddit.com/wiki/pages#res:settings-redirect-standalone-options-page/userInfo')
 			.waitForElementVisible('#RESConsoleContainer')
+			.click('.moduleToggle')
+			// Disable neverEndigComments, as that may auto click the "load more comments" buttons
+			.url('https://en.reddit.com/wiki/pages#res:settings-redirect-standalone-options-page/neverEndingComments')
 			.click('.moduleToggle')
 
 			// Run the actual test...
